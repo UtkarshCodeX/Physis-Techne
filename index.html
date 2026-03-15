@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photonic Circuit Optimizer</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f4f9; padding: 30px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; }
+        .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .control-group { display: flex; flex-direction: column; }
+        label { font-weight: bold; margin-bottom: 8px; color: #555; }
+        select, input { padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        
+        .console { 
+            background: #1e1e1e; color: #00ff00; font-family: 'Courier New', Courier, monospace; 
+            padding: 20px; height: 450px; overflow-y: scroll; border-radius: 5px; 
+            white-space: pre-wrap; font-size: 14px; margin-top: 20px; border: 2px solid #333;
+        }
+        
+        button { 
+            background: #28a745; color: white; border: none; padding: 12px 20px; 
+            font-size: 16px; cursor: pointer; border-radius: 4px; transition: background 0.3s;
+        }
+        button:hover { background: #218838; }
+        button:disabled { background: #aaa; cursor: not-allowed; }
+        
+        #downloadBtn { display: none; background: #007bff; margin-top: 15px;}
+        #downloadBtn:hover { background: #0069d9; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔬 Photonic Quantum Experiment Designer</h1>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>Select Final Target State:</label>
+            <select id="targetSelect" onchange="toggleCustomInput()">
+                <option value="bell">2 Qubits (Bell State Target)</option>
+                <option value="ghz4">4 Qubits (GHZ-4 State Target)</option>
+                <option value="custom">Enter Custom State...</option>
+            </select>
+            <input type="text" id="customTargetInput" placeholder="e.g., W-state, GHZ-3..." style="display: none; margin-top: 10px;">
+        </div>
+        <div class="control-group">
+            <label>GA Parameters (Pop / Gens):</label>
+            <div style="display: flex; gap: 10px;">
+                <input type="number" id="popInput" value="40" style="width: 50%" placeholder="Pop">
+                <input type="number" id="gensInput" value="100" style="width: 50%" placeholder="Gens">
+            </div>
+            <small style="color: gray; margin-top: 5px;">*Lower values run faster for web testing.</small>
+        </div>
+    </div>
+
+    <button id="runBtn" onclick="startSim()">▶ Run Optimization</button>
+    <a href="/download_pdf"><button id="downloadBtn">📄 Download PDF Report</button></a>
+
+    <div class="console" id="consoleBox">System Ready. Awaiting run command...</div>
+</div>
+
+<script>
+    // New function to handle showing/hiding the text box
+    function toggleCustomInput() {
+        const select = document.getElementById('targetSelect');
+        const customInput = document.getElementById('customTargetInput');
+        if (select.value === 'custom') {
+            customInput.style.display = 'block';
+        } else {
+            customInput.style.display = 'none';
+        }
+    }
+
+    function startSim() {
+        // Logic to grab either the predefined value or the manual input
+        let target = document.getElementById('targetSelect').value;
+        if (target === 'custom') {
+            target = document.getElementById('customTargetInput').value;
+            
+            // Basic safety check so they don't submit an empty string
+            if (target.trim() === "") {
+                alert("Please enter a custom target state.");
+                return;
+            }
+        }
+        
+        const pop = document.getElementById('popInput').value;
+        const gens = document.getElementById('gensInput').value;
+        
+        const consoleBox = document.getElementById('consoleBox');
+        const runBtn = document.getElementById('runBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        consoleBox.innerHTML = `Initializing simulation environment for target: ${target}...\n`;
+        runBtn.disabled = true;
+        downloadBtn.style.display = "none";
+
+        // URL correctly encodes the custom string so it doesn't break your Flask route
+        const evtSource = new EventSource(`/stream?target=${encodeURIComponent(target)}&pop=${pop}&gens=${gens}`);
+
+        evtSource.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            
+            if (data.log) {
+                consoleBox.innerHTML += data.log;
+                // Auto-scroll to bottom
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+            }
+            
+            if (data.done) {
+                evtSource.close();
+                consoleBox.innerHTML += "\n\n>> OPTIMIZATION COMPLETE.";
+                consoleBox.scrollTop = consoleBox.scrollHeight;
+                runBtn.disabled = false;
+                downloadBtn.style.display = "inline-block";
+            }
+        };
+        
+        evtSource.onerror = function() {
+            evtSource.close();
+            consoleBox.innerHTML += "\n[Error] Connection to simulation server lost.";
+            runBtn.disabled = false;
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,173 @@
+:root {
+    --bg-color: #121212;
+    --card-bg: #1e1e24;
+    --text-main: #e0e0e0;
+    --text-muted: #888;
+    --accent: #00e5ff;
+    --accent-hover: #00b8cc;
+    --border: #333;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+header h1 {
+    color: var(--accent);
+    margin: 0 0 5px 0;
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+header p {
+    color: var(--text-muted);
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px; /* Increased from 20px for massive breathing room */
+    width: 100%;
+    max-width: 1200px; /* Widened to allow more horizontal spread */
+}
+
+
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 30px; /* Increased from 20px to pad the inside of the boxes */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.card h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    color: var(--accent);
+}
+
+/* Control Panel */
+.control-panel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+button {
+    background-color: var(--accent);
+    color: #000;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: var(--accent-hover);
+}
+
+button:disabled {
+    background-color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.hidden { display: none; }
+#loader { color: var(--accent); font-style: italic; }
+
+/* Score Section */
+.metric {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+.metric .highlight {
+    color: #00ff00;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* Lists */
+.state-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.state-list li {
+    background: #2a2a32;
+    margin-bottom: 15px; /* Increased from 8px to separate the list items */
+    padding: 15px; /* Increased from 10px to make the rows taller */
+    border-radius: 4px;
+}
+.state-list .amp {
+    color: var(--accent);
+    margin-right: 15px;
+}
+
+/* Circuit Path */
+.circuit-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 25px; /* Increased from 10px to space out the devices */
+    padding-top: 15px;
+}
+
+.device {
+    background: #2a2a32;
+    border-left: 4px solid var(--accent);
+    padding: 15px 20px; /* Increased inner padding for the device boxes */
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    min-width: 140px; /* Made the device boxes slightly wider */
+}
+
+
+
+.device.empty { border-left-color: var(--text-muted); }
+
+.step-num {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+.dev-name {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 5px 0;
+}
+.dev-details {
+    font-size: 0.9rem;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.connector {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    margin: 0 10px; /* Added margins to push the arrows away from the boxes */
+}
