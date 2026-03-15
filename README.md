@@ -55,9 +55,7 @@ python main.py --target bell
 python main.py --target ghz4 --pop 150 --gens 3000 --seed 42
 ```
 
-## 🎯 | Copy & Paste
-EmojiDB
-https://emojidb.org › output-emojisOutput Interpretation
+## Interpretation
 When a viable circuit is discovered, the engine will output the final hardware blueprint. This represents the physical optical table layout, including:
 
 BS: Beam Splitters (for Hong-Ou-Mandel interference)
