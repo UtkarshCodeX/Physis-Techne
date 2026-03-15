@@ -1,1 +1,4 @@
-libraries needed for app.py are - flask, reportlab, numpy, scipy
+Flask
+reportlab
+numpy
+scipy
