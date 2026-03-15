@@ -7,19 +7,20 @@ This project implements an AI-driven system for designing quantum optical experi
 ---
 
 ## 🔬 The Simulation Engine
-* **Architecture:** Models three Spontaneous Parametric Down-Conversion (SPDC) sources producing six photons across twelve optical modes.
-* **State Space:** Operates within an 8074-dimensional Fock space restricted to a fixed photon number.
-* **Hardware Representation:** Optical elements such as beam splitters, half-wave plates, quarter-wave plates, phase shifters, and photon detectors are represented through sparse operators acting within this Hilbert space.
-* **Efficient Evolution:** State evolution is computed using `scipy.sparse.linalg.expm_multiply`, allowing efficient application of unitary transformations without constructing large, memory-heavy dense matrices.
 
+ * **Construction :** Models three Spontaneous Parametric Down-Conversion (SPDC) sources producing random six photons across twelve optical modes to be subjected to random tools provided on hand.
+ * **State Space :** Operates within an 8074-dimensional "Fock space" restricted to a fixed photon number i.e. Each Mode n may have m no. of photons.
+ * **Hardware Set :** Optical elements such as (BS)beam splitters, (HWPs)half-wave plates, (QWPs)quarter-wave plates, (PS)phase shifters, and photon detectors are used for such applied changes.
+ * **Efficient :** State evolution is computed using `scipy.sparse.linalg.expm_multiply`, it stores the non zero terms and their locations in a 0 term heavy matrix hence saving computation space for efficiency.
 ---
 
-## 🧠 Hybrid AI Optimization
+## 🧠 Hybridized Model 
+
 The system combines the global exploration capabilities of evolutionary search with the precision of gradient optimization to navigate the vast design space of multi-photon interference.
 
-* **Genetic Algorithm (GA):** Performs global exploration over possible circuit topologies. Circuits are randomly generated, recombined, and mutated while being evaluated against a target quantum state using pure-state fidelity.
-* **Balanced Fitness Function:** Evaluates circuits by balancing fidelity, success probability, and circuit complexity. This encourages experimentally meaningful solutions rather than overly deep or impractical designs.
-* **Gradient-Based Tuning (Adam):** Once promising circuit structures emerge, the system switches to Adam optimization. It applies the **parameter-shift rule** to compute exact gradients for continuous gate parameters (e.g., beam-splitter angles and phase shifts).
+* **Genetic Algorithm (GA):** Performs global exploration over possible circuits. Circuits are randomly generated, recombined, and mutated while being evaluated against a target quantum state using pure-state fidelity calculation as mentioned in problem statement.
+* **Balanced Fitness Function:** Evaluates circuits by balancing fidelity, success probability, and circuit complexity. This encourages experimentally meaningful and compact solutions rather than large impractical designs.
+* **Gradient-Based Tuning (Adam):** Once promising circuit structures emerge, the system switches to Adam optimization. It applies the **parameter-shift rule** to compute exact gradients for continuous gate parameters (e.g., angles for our beam-splitters and phase shifts).
 * **Exploration Diversity:** To prevent premature convergence, the algorithm includes mechanisms such as elite preservation, stochastic mutations, periodic population resets ("earthquakes"), and the delayed injection of known high-fidelity seed circuits.
 
 ---
