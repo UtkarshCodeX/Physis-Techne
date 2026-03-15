@@ -6,7 +6,7 @@ This project implements an AI-driven system for designing quantum optical experi
 
 ---
 
-## 🔬 The Simulation Engine
+## 🔴 The Simulation Engine
 
  * **Construction :** Models three Spontaneous Parametric Down-Conversion (SPDC) sources producing random six photons across twelve optical modes to be subjected to random tools provided on hand.
  * **State Space :** Operates within an 8074-dimensional "Fock space" restricted to a fixed photon number i.e. Each Mode n may have m no. of photons.
@@ -14,7 +14,7 @@ This project implements an AI-driven system for designing quantum optical experi
  * **Efficient :** State evolution is computed using `scipy.sparse.linalg.expm_multiply`, it stores the non zero terms and their locations in a 0 term heavy matrix hence saving computation space for efficiency.
 ---
 
-## 🧠 Hybridized Model 
+## 🟢 Hybridized Model 
 
 The system combines the global exploration capabilities of evolutionary search with the precision of gradient optimization to navigate the vast design space of multi-photon interference.
 
@@ -25,13 +25,13 @@ The system combines the global exploration capabilities of evolutionary search w
 
 ---
 
-## 🎯 Supported Targets & Capabilities
+## ⚪ Capabilities
 * **Entanglement Generation:** Currently supports the discovery of photonic circuits for generating **Bell states** and **four-photon GHZ states**, starting from entangled photon pairs.
 * **Laboratory Viability:** The system evaluates circuits based on both quantum state fidelity and heralding probability, ensuring that the resulting designs remain physically meaningful for actual laboratory implementation.
 
 ---
 
-## 📦 Installation
+## 🟡 Installation
 
 This project requires Python 3.8+ and relies on standard scientific computing libraries. No heavy quantum frameworks are required.
 ```bash
@@ -43,7 +43,7 @@ cd photonic-quantum-designer
 pip install numpy scipy
 ```
 
-## 💻 Usage                                                                                                                          
+## 🔵 Usage                                                                                                                          
 ```
 # Generate a 4-photon GHZ state blueprint (Default)
 python main.py --target ghz4
@@ -55,7 +55,7 @@ python main.py --target bell
 python main.py --target ghz4 --pop 150 --gens 3000 --seed 42
 ```
 
-## Interpretation
+## 🟠 Interpretation
 When a viable circuit is discovered, the engine will output the final hardware blueprint. This represents the physical optical table layout, including:
 This circuit is prepped by the program in sucha  way it gives max fidelity at lowest possible costs (here the gates)
 
