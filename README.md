@@ -57,6 +57,7 @@ python main.py --target ghz4 --pop 150 --gens 3000 --seed 42
 
 ## Interpretation
 When a viable circuit is discovered, the engine will output the final hardware blueprint. This represents the physical optical table layout, including:
+This circuit is prepped by the program in sucha  way it gives max fidelity at lowest possible costs (here the gates)
 
 BS: Beam Splitters (for Hong-Ou-Mandel interference)
 
